@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return Response::json(["welcome"=>"Use '/api' prefix."],200);
+    return Response::json(["help"=>"https://github.com/gavalierm/amcef-todo-api"],200);
 });
