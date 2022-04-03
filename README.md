@@ -2,28 +2,28 @@
 
 ## Routes
 ```
-  GET|HEAD  / ....................................................................................................................................... 
-  POST      _ignition/execute-solution ................................ ignition.executeSolution › Spatie\LaravelIgnition › ExecuteSolutionController
-  GET|HEAD  _ignition/health-check ............................................ ignition.healthCheck › Spatie\LaravelIgnition › HealthCheckController
-  POST      _ignition/update-config ......................................... ignition.updateConfig › Spatie\LaravelIgnition › UpdateConfigController
-  POST      api/auth/login ..................................................................................................... UserController@login
-  POST      api/auth/logout ................................................................................................... UserController@logout
-  POST      api/auth/register ............................................................................................... UserController@register
-  POST      api/categories ................................................................................................. CategoryController@store
-  GET|HEAD  api/categories/list ............................................................................................ CategoryController@index
-  GET|HEAD  api/categories/{id} ............................................................................................. CategoryController@show
-  PUT       api/categories/{id} ........................................................................................... CategoryController@update
-  DELETE    api/categories/{id} .......................................................................................... CategoryController@destroy
-  POST      api/items .......................................................................................................... ItemController@store
-  GET|HEAD  api/items/list ..................................................................................................... ItemController@index
-  GET|HEAD  api/items/{id} ...................................................................................................... ItemController@show
-  PUT       api/items/{id} .................................................................................................... ItemController@update
-  DELETE    api/items/{id} ................................................................................................... ItemController@destroy
-  GET|HEAD  api/users/list ..................................................................................................... UserController@index
-  GET|HEAD  api/users/{id} ...................................................................................................... UserController@show
-  PUT       api/users/{id} .................................................................................................... UserController@update
-  DELETE    api/users/{id} ................................................................................................... UserController@destroy
-  GET|HEAD  sanctum/csrf-cookie ......................................................................... Laravel\Sanctum › CsrfCookieController@show
+  GET|HEAD  / .......................................................................................... 
+  POST      _ignition/execute-solution ignition.executeSolution › Spatie\LaravelIgnition › ExecuteSolut…
+  GET|HEAD  _ignition/health-check ignition.healthCheck › Spatie\LaravelIgnition › HealthCheckController
+  POST      _ignition/update-config ignition.updateConfig › Spatie\LaravelIgnition › UpdateConfigContro…
+  POST      api/auth/login ........................................................ UserController@login
+  POST      api/auth/logout ...................................................... UserController@logout
+  POST      api/auth/register .................................................. UserController@register
+  POST      api/categories .................................................... CategoryController@store
+  GET|HEAD  api/categories/list ............................................... CategoryController@index
+  GET|HEAD  api/categories/{id} ................................................ CategoryController@show
+  PUT       api/categories/{id} .............................................. CategoryController@update
+  DELETE    api/categories/{id} ............................................. CategoryController@destroy
+  POST      api/items ............................................................. ItemController@store
+  GET|HEAD  api/items/list ........................................................ ItemController@index
+  GET|HEAD  api/items/{id} ......................................................... ItemController@show
+  PUT       api/items/{id} ....................................................... ItemController@update
+  DELETE    api/items/{id} ...................................................... ItemController@destroy
+  GET|HEAD  api/users/list ........................................................ UserController@index
+  GET|HEAD  api/users/{id} ......................................................... UserController@show
+  PUT       api/users/{id} ....................................................... UserController@update
+  DELETE    api/users/{id} ...................................................... UserController@destroy
+  GET|HEAD  sanctum/csrf-cookie ............................ Laravel\Sanctum › CsrfCookieController@show
 ```
 
 
