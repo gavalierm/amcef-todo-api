@@ -12,7 +12,7 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return Item::simplePaginate(1);
     }
@@ -28,6 +28,12 @@ class ItemController extends Controller
         //$user->roles()->attach($role->id);
         //$user->roles()->detach($role->id);
         //$user->roles()->sync($roles);
+
+        $data = $request->all();
+        //force owner_id as logged user //prevent injection
+        $data['owner_id'] = $request->user()->id;
+
+        return Item::updateOrCreate($data);
     }
 
     /**
@@ -36,9 +42,15 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function show(Item $item, int $id)
+    public function show(Request $request, Item $item, int $id)
     {
-        return $item->findOrFail($id);
+        $obj = $item->findOrFail($id);
+
+        //todo share?
+        if($request->user()->id !== $obj->owner_id){
+            return abort(403,'You tried to show others item.');
+        }
+        return $obj;
     }
 
     /**
@@ -54,12 +66,13 @@ class ItemController extends Controller
         //return "test" . $request->item()->id;
         //return "test" . var_dump( $id );
 
+        $obj = $item->findOrFail($id);
         //todo share can update
-        if($request->user()->id !== $id){
+        if($request->user()->id !== $obj->owner_id){
             return abort(403,'You tried to update others item.');
         }
         //return abort(400,'Not updated');
-        $status = $item->findOrFail($id)->update($request->all());
+        $status = $obj->update($request->all());
 
         if($status){
             return $item->findOrFail($id);
@@ -74,18 +87,20 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $item, int $id )
+    public function destroy(Request $request, Item $item, int $id )
     {
         //return $id;
         //return $request->user()->id;
-        if($request->user()->id !== $id){
+        $obj = $item->findOrFail($id);
+
+        if($request->user()->id !== $obj->owner_id){
            return abort(403,'You tried to delete others item.');
         }
 
-        $status = $user->findOrFail($id)->delete();
+        $status = $obj->delete();
 
         if($status){
-            return reponse("Removed",204);
+            return response("Removed",204);
         }
 
         return abort(400,"Not deleted");

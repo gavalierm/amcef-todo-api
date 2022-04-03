@@ -25,7 +25,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+        $data = $request->all();
+        //force owner_id as logged user //prevent injection
+        $data['owner_id'] = $request->user()->id;
+
+        return Category::updateOrCreate($data);
     }
 
     /**
@@ -49,12 +53,13 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category, int $id )
     {
 
+        $obj = $category->findOrFail($id);
         //todo share can update
-        if($request->user()->id !== $id){
+        if($request->user()->id !== $obj->owner_id){
             return abort(403,'You tried to update others category.');
         }
         //return abort(400,'Not updated');
-        $status = $category->findOrFail($id)->update($request->all());
+        $status = $obj->update($request->all());
 
         if($status){
             return $category->findOrFail($id);
@@ -73,14 +78,16 @@ class CategoryController extends Controller
     {
         //return $id;
         //return $request->user()->id;
-        if($request->user()->id !== $id){
+        $obj = $category->findOrFail($id);
+
+        if($request->user()->id !== $obj->owner_id){
            return abort(403,'You tried to delete others category.');
         }
 
-        $status = $category->findOrFail($id)->delete();
+        $status = $obj->delete();
 
         if($status){
-            return reponse("Removed",204);
+            return response("Removed",204);
         }
 
         return abort(400,"Not deleted");
