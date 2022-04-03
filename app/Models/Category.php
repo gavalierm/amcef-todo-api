@@ -13,11 +13,11 @@ class Category extends Model
 
     public function items()
     {
-        return $this->belongsToMany(Item::class)->as('items');
+        return $this->belongsToMany(Item::class,'items_categories');
     }
 
     public function owner()
     {
-        return $this->belongsTo(User::class)->as('owner');
+        return $this->belongsTo(User::class,'owner_id');
     }
 }

@@ -74,10 +74,18 @@ class ItemController extends Controller
 
         //return $request->all();
         //return abort(400,'Not updated');
-        $status = $obj->update($request->all());
+        $data = $request->all();
+
+        //return $data;
+
+        $status = $obj->update($data);
 
         if($status){
-            return $item->findOrFail($id);
+            if($request->has('categories')){
+                $status = $obj->categories()->sync( $request->get('categories') ?: [] );
+            }
+            //return $status;
+            return $item->with('categories')->findOrFail($id);
         }
 
         return abort(304,'Not updated');

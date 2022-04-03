@@ -58,11 +58,19 @@ class CategoryController extends Controller
         if($request->user()->id !== $obj->owner_id){
             return abort(403,'You tried to update others category.');
         }
-        //return abort(400,'Not updated');
-        $status = $obj->update($request->all());
+        //
+        $data = $request->all();
+
+        //return $data;
+
+        $status = $obj->update($data);
 
         if($status){
-            return $category->findOrFail($id);
+            if($request->has('items')){
+                $status = $obj->items()->sync( $request->get('items') ?: [] );
+            }
+            
+            return $category->with('items')->findOrFail($id);
         }
 
         return abort(304,'Not updated');
