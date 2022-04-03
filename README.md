@@ -27,7 +27,7 @@
 ```
 
 ## Usage
-API use common RESP principes.
+API use common REST principes.
 
 ### Point /list
 For listing use GET method on '/list' endpoint instead of '/'.
