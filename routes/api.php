@@ -23,13 +23,22 @@ Route::middleware('guest')->prefix('auth')->group(function(){
 
 Route::middleware('auth:sanctum')->group(function(){
 
-    Route::get('/user', [UserController::class, 'index' ]);
-    Route::get('/user/{id}', [UserController::class, 'show' ]);
-    Route::put('/user/{id}', [UserController::class, 'update' ]);
-    Route::delete('/user/{id}', [UserController::class, 'destroy' ]);
+    Route::post('/auth/logout', [UserController::class, 'logout' ] );
 
-    Route::get('/register', [UserController::class, 'register' ] );
-    Route::get('/login', [UserController::class, 'login' ] );
-    Route::get('/login', [UserController::class, 'login' ] );
+    Route::prefix('user')->group(function(){
+        Route::get('/list', [UserController::class, 'index' ]);
+        Route::get('/{id}', [UserController::class, 'show' ]);
+        Route::put('/{id}', [UserController::class, 'update' ]);
+        Route::delete('/{id}', [UserController::class, 'destroy' ]);
+    });
+
+    Route::prefix('item')->group(function(){
+        /**
+        Route::get('/list', [ItemController::class, 'index' ]);
+        Route::get('/{id}', [ItemController::class, 'show' ]);
+        Route::put('/{id}', [ItemController::class, 'update' ]);
+        Route::delete('/{id}', [ItemController::class, 'destroy' ]);
+        **/
+    });
 
 });

@@ -92,7 +92,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, $id)
+    public function show(User $user, int $id)
     {
         //
         //return $id;
