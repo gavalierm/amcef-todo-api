@@ -14,7 +14,11 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        return Category::where('owner_id',$request->user()->id)->simplePaginate(1);
+        $order_by = $request->get('order_by') ?: 'id';
+        $order_direction = $request->get('order_direction') ?: 'asc';
+        $per_page = intval($request->get('per_page') ?: 2 );
+
+        return Category::where('owner_id',$request->user()->id)->orderBy( $order_by, $order_direction )->simplePaginate($per_page)->appends($request->except('page'));
     }
 
     /**
@@ -29,7 +33,14 @@ class CategoryController extends Controller
         //force owner_id as logged user //prevent injection
         $data['owner_id'] = $request->user()->id;
 
-        return Category::updateOrCreate($data);
+        $obj = Category::create($data);
+
+        if($request->has('items')){
+            $status = $obj->items()->sync( $request->get('items') ?: [] );
+        }
+        //return $status;
+        $obj->items; //touch to return
+        return $obj;
     }
 
     /**
@@ -38,9 +49,14 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return App\Models\Category
      */
-    public function show(Category $category, int $id)
+    public function show(Request $request, Category $category, int $id)
     {
-        return $category->findOrFail($id);
+        $obj = $category->findOrFail($id);
+        //todo share?
+        if($request->user()->id !== $obj->owner_id){
+            return abort(403,'You tried to show others item.');
+        }
+        return $obj;
     }
 
     /**

@@ -18,9 +18,14 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return User::simplePaginate(1);
+        //restrict fields
+        $order_by = $request->get('order_by') ?: 'id';
+        $order_direction = $request->get('order_direction') ?: 'asc';
+        $per_page = intval($request->get('per_page') ?: 2);
+
+        return User::select(array('id','name'))->orderBy($order_by, $order_direction )->simplePaginate($per_page)->appends($request->except('page'));
     }
 
     /**
@@ -96,7 +101,11 @@ class UserController extends Controller
     {
         //
         //return $id;
-        return $user->findOrFail($id);
+        if($request->user()->id !== $id){
+            //return limited data
+            $columns = array('id','name');
+        }
+        return $user->findOrFail($id,$columns);
     }
 
     /**

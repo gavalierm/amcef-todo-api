@@ -14,7 +14,11 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        return Item::where('owner_id',$request->user()->id)->simplePaginate(1);
+        $order_by = $request->get('order_by') ?: 'id';
+        $order_direction = $request->get('order_direction') ?: 'asc';
+        $per_page = intval($request->get('per_page') ?: 2);
+
+        return Item::where('owner_id',$request->user()->id)->orderBy($order_by, $order_direction )->simplePaginate($per_page)->appends($request->except('page'));
     }
 
     /**
@@ -33,7 +37,15 @@ class ItemController extends Controller
         //force owner_id as logged user //prevent injection
         $data['owner_id'] = $request->user()->id;
 
-        return Item::updateOrCreate($data);
+        $obj = Item::create($data);
+
+        if($request->has('categories')){
+            $status = $obj->categories()->sync( $request->get('categories') ?: [] );
+        }
+        //return $status;
+        $obj->categories; //touch to return
+        return $obj;
+
     }
 
     /**
@@ -50,6 +62,7 @@ class ItemController extends Controller
         if($request->user()->id !== $obj->owner_id){
             return abort(403,'You tried to show others item.');
         }
+        $obj->categories; //touch to return
         return $obj;
     }
 

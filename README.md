@@ -26,6 +26,40 @@
   GET|HEAD  sanctum/csrf-cookie ............................ Laravel\Sanctum › CsrfCookieController@show
 ```
 
+## Usage
+API use common RESP principes.
+
+### Point /list
+For listing use GET method on '/list' endpoint instead of '/'.
+
+### Syncing categories in items and vice-versa
+When you update resources and you want to "sync" relations only what you need to do is pass relation key in request body.
+
+This snippet update the title and sync (update), add item to the provided categories
+```
+[
+    "title":"Updated item title",
+    "categories":[
+        1,
+        2
+    ]
+]
+```
+This snippet do nothing with relations (relations stay untouched)
+```
+[
+    "title":"Updated item title",
+]
+```
+This snippet do clear relations
+```
+[
+    "title":"Updated item title",
+    "categories":[]
+]
+```
+
+Note: If you pass relation key with non-existing id you get exception response.
 
 ## Zadanie
 #### Vytvor jednoduchú ToDo appku v Laraveli ktorá by mala obsahovať:
@@ -41,11 +75,11 @@ Predpokladá sa správne používanie Laravel frameworku - ORM, Auth wrapper, Ma
 #### Spôsob implementácie: (môžeš si vybrať)
 1. Statická appka (pre fullstack developera)
     - Použitie HTML + Custom (SCSS/LESS/SASS - nie čisté CSS)/Bootstrap/Material/Tailwind
-	- Logicky štruktúrované views
+    - Logicky štruktúrované views
 2. REST API (pre backend developera)
-	- Auth musí byť stateless podľa princípov REST
-	- Dodržať princípy REST
-	- Pridať pagination k zoznamu ToDo itemom
+    - Auth musí byť stateless podľa princípov REST
+    - Dodržať princípy REST
+    - Pridať pagination k zoznamu ToDo itemom
 
 ## Pozn
 - vytvorit mysql, pridat creds do .env
