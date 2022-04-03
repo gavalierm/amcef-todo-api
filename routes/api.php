@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/auth/logout', [UserController::class, 'logout' ] );
 
-    Route::prefix('user')->group(function(){
+    Route::prefix('users')->group(function(){
 
         Route::get('/list', [UserController::class, 'index' ]);
         Route::get('/{id}', [UserController::class, 'show' ]);
@@ -36,8 +36,10 @@ Route::middleware('auth:sanctum')->group(function(){
 
     });
 
-    Route::prefix('item')->group(function(){
+    Route::prefix('items')->group(function(){
         
+
+        Route::post('/', [ItemController::class, 'store' ]);
         Route::get('/list', [ItemController::class, 'index' ]);
         Route::get('/{id}', [ItemController::class, 'show' ]);
         Route::put('/{id}', [ItemController::class, 'update' ]);
@@ -45,8 +47,9 @@ Route::middleware('auth:sanctum')->group(function(){
         
     });
 
-    Route::prefix('category')->group(function(){
+    Route::prefix('categories')->group(function(){
         
+        Route::post('/', [CategoryController::class, 'store' ]);
         Route::get('/list', [CategoryController::class, 'index' ]);
         Route::get('/{id}', [CategoryController::class, 'show' ]);
         Route::put('/{id}', [CategoryController::class, 'update' ]);

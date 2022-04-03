@@ -25,7 +25,9 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //$user->roles()->attach($role->id);
+        //$user->roles()->detach($role->id);
+        //$user->roles()->sync($roles);
     }
 
     /**
