@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class ItemController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return App\Models\Category
      */
     public function index()
     {
-        return Item::simplePaginate(1);
+        return Category::simplePaginate(1);
     }
 
     /**
@@ -31,36 +31,33 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Category  $category
+     * @return App\Models\Category
      */
-    public function show(Item $item, int $id)
+    public function show(Category $category, int $id)
     {
-        return $item->findOrFail($id);
+        return $category->findOrFail($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Item  $item
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Category  $category
+     * @return App\Models\Category
      */
-    public function update(Request $request, Item $item, int $id )
+    public function update(Request $request, Category $category, int $id )
     {
-        //
-        //return "test" . $request->item()->id;
-        //return "test" . var_dump( $id );
 
         //todo share can update
         if($request->user()->id !== $id){
-            return abort(403,'You tried to update others item.');
+            return abort(403,'You tried to update others category.');
         }
         //return abort(400,'Not updated');
-        $status = $item->findOrFail($id)->update($request->all());
+        $status = $category->findOrFail($id)->update($request->all());
 
         if($status){
-            return $item->findOrFail($id);
+            return $category->findOrFail($id);
         }
 
         return abort(304,'Not updated');
@@ -69,18 +66,18 @@ class ItemController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Item  $item
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $item, int $id )
+    public function destroy(Request $request, Category $category, int $id)
     {
         //return $id;
         //return $request->user()->id;
         if($request->user()->id !== $id){
-           return abort(403,'You tried to delete others item.');
+           return abort(403,'You tried to delete others category.');
         }
 
-        $status = $user->findOrFail($id)->delete();
+        $status = $category->findOrFail($id)->delete();
 
         if($status){
             return reponse("Removed",204);
