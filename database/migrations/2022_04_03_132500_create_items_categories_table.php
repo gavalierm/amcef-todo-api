@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('items_categories', function (Blueprint $table) {
-            $table->integer('item_id')->unsigned()->index();
-            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');
-            $table->integer('category_id')->unsigned()->index();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+        Schema::create('items_categories', function (Blueprint $table) {
+            $table->foreignId('item_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->primary(['item_id', 'category_id']);
         });
     }

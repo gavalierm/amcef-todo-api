@@ -12,9 +12,9 @@ class CategoryController extends Controller
      *
      * @return App\Models\Category
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Category::simplePaginate(1);
+        return Category::where('owner_id',$request->user()->id)->simplePaginate(1);
     }
 
     /**

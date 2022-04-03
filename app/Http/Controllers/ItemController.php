@@ -14,7 +14,7 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
-        return Item::simplePaginate(1);
+        return Item::where('owner_id',$request->user()->id)->simplePaginate(1);
     }
 
     /**
@@ -71,6 +71,8 @@ class ItemController extends Controller
         if($request->user()->id !== $obj->owner_id){
             return abort(403,'You tried to update others item.');
         }
+
+        //return $request->all();
         //return abort(400,'Not updated');
         $status = $obj->update($request->all());
 
